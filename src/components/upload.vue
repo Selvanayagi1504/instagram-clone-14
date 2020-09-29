@@ -160,7 +160,8 @@
                             bio: user.bio,
                             gender: user.gender,
                             profile: user.profile,
-                            posts: newposts
+                            posts: newposts,
+                            fav:user.fav
                         }
                         newusers.push(cuser);
                     }

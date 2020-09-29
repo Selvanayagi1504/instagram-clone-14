@@ -137,7 +137,8 @@ export default {
                             bio: user.bio,
                             gender: user.gender,
                             profile: user.profile,
-                            post: newpost
+                            post: newpost,
+                            fav:user.fav
                         }
                         newusers.push(cuser);
                     } 

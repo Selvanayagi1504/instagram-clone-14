@@ -113,7 +113,8 @@
                                 bio: user.bio,
                                 gender: user.gender,
                                 profile: this.url,
-                                posts: user.posts
+                                posts: user.posts,
+                                fav:user.fav
                             }
                             newusers.push(cuser);
                         } else {

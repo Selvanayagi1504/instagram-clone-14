@@ -639,7 +639,8 @@
                             bio: this.bio,
                             gender: this.gender,
                             profile: user.profile,
-                            posts: user.posts
+                            posts: user.posts,
+                            fav:user.fav
                         }
                         newusers.push(cuser);
                     } else {
@@ -671,7 +672,8 @@
                                 bio: user.bio,
                                 gender: user.gender,
                                 profile: user.profile,
-                                posts: user.posts
+                                posts: user.posts,
+                                fav:user.fav
                             }
                             newusers.push(cuser);
                         } else {
