@@ -35,17 +35,21 @@
                 <h5 class="username-post">
                     <img :src="`${cat.profile}`" style="width: 3%;border-radius: 16px;"/>
                     {{cat.name}}
+                    <img :src="require('./images/threedots.svg')" alt="" id="show-modal" @click="showDots = true" class="three-dots">
                 </h5>
                 <p class="post-p">
                     <span>
                         <img :src="`${cat.path}`" class="post-img"/>
                         <br/>
                         <div class="like-btn">
-                            <img :src="image1" @click="myFunction(`${cat.path}`,`${cat.likes}`)" style="width:6%;">
+                            <img :src="image1" @click="myFunction(`${cat.path}`,`${cat.likes}`)" style="width:6%;">&nbsp;&nbsp;
+                            <img :src="require('./images/c.png')" style="width:4%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <img :src="require('./images/save.png')" style="width:4%;">
+                            <br>
                             {{cat.likes}}&nbsp;&nbsp;likes
                         </div>
                         <div class="comment">
-                            {{cat.comment}}
+                    <b>{{cat.name}}:</b>&nbsp;&nbsp; {{cat.comment}}
                             <br>
                             {{cat.date}}
                         </div>
@@ -86,7 +90,9 @@
                 image2 :require('../components/images/like-image-color.png'),
                 temp:"",
                 like:0,
-                t:require('../components/images/activity.png')
+                t:require('../components/images/activity.png'),
+                isFavorite:false,
+                
             }
         },
         mounted() {
@@ -106,7 +112,7 @@
                             path:post.path,
                             comment:post.comment,
                             likes:post.likes,
-                            date:post.date
+                            date:post.date,
                         }
                         this.like=parseInt(post.likes)
                         this.cats.push(sam);
@@ -116,7 +122,6 @@
         methods:{
             myFunction(img,likes) {	
                 console.log(this.like)
-                
                 if(this.image1==this.t){
                     likes=parseInt(likes);
                     likes=likes+1;
@@ -129,7 +134,6 @@
                 }
                 likes=likes.toString();
                 console.log(likes)
-
                 let email = sessionStorage.getItem('email');
                 let users = JSON.parse(localStorage.getItem("instausers"));
                 let newusers=[];
@@ -141,7 +145,8 @@
                                 var npost={
                                     path:post.path,
                                     comment:post.comment,
-                                    likes:likes
+                                    likes:likes,
+                                    date:post.date
                                 }
                                 newposts.push(npost)
                             }
@@ -170,9 +175,10 @@
                     }
                 })
                 localStorage.setItem("instausers", JSON.stringify(newusers));
-               this.temp=this.image1;
+                this.temp=this.image1;
                 this.image1 = this.image2;
                 this.image2=this.temp;
+                
             }
         }
     }
@@ -285,4 +291,7 @@
       outline: none;
       box-shadow: none;
   }
+  .three-dots {
+    margin-left: 51%;
+}
 </style>

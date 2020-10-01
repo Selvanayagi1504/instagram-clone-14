@@ -222,7 +222,7 @@
                                     <input type="text" v-model="cpass" class="edit-box-change">
                                 </div>
                             </div>
-                            <button @click="changepassword" class="changepass-btn">Change Password</button>
+                            <button @click="changepassword()" class="changepass-btn">Change Password</button>
 
                         </div>
                         <div v-if="activetab ==='3'" class="tabcontent">
@@ -676,15 +676,15 @@
                                 fav:user.fav
                             }
                             newusers.push(cuser);
-                        } else {
-                            alert("old password is wrong");
-                        }
+                        } 
                     } else {
                         newusers.push(user);
                     }
                 })
                 console.log(newusers)
                 localStorage.setItem("instausers", JSON.stringify(newusers));
+                alert("changed successfully");
+                window.location.reload()
             }
         }
     }

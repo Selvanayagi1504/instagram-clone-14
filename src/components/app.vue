@@ -71,6 +71,11 @@
                   </center>
                 </div>
               </clazy-load>
+              <div class="remove-btn">
+                  <button class="remove-btn-btn" @click="remove(`${row.id}`)">
+                      Remove
+                  </button>
+              </div>
             </td>
             <td class="size">
               <clazy-load :src="`${row.name}`">
@@ -81,6 +86,11 @@
                   </center>
                 </div>
               </clazy-load>
+              <div class="remove-btn" v-show="vshow">
+                  <button class="remove-btn-btn" @click="remove(`${row.name}`)">
+                      Remove
+                  </button>
+              </div>
             </td>
             <td class="size">
               <clazy-load :src="`${row.phone}`">
@@ -91,6 +101,11 @@
                   </center>
                 </div>
               </clazy-load>
+              <div class="remove-btn" v-show="vshow1">
+                  <button class="remove-btn-btn" @click="remove(`${row.phone}`)">
+                      Remove
+                  </button>
+              </div>
             </td>
           </tr>
         </table>
@@ -138,6 +153,8 @@
         state,
         rows: [],
         title: [],
+        vshow:false,
+        vshow1:false,
         handleSearch(searchTerm) {
           state.loading = true;
           state.search = searchTerm;
@@ -172,6 +189,7 @@
                 id: st
               }
             } else if (i == 2) {
+              this.vshow=true
               m = f.poster
               mt = f.title
               k = []
@@ -186,6 +204,7 @@
               }
 
             } else if (i == 3) {
+              this.vshow1=true
               k = []
               kt = []
               k = {
@@ -220,6 +239,8 @@
             // i--;
             if (i == 2) {
               // m="https://i.pinimg.com/originals/aa/bf/c8/aabfc8cd95f0350be64a0f300ecb111e.jpg"
+              this.vshow=false
+              this.vshow2=false
               k = []
               kt = []
               k = {
@@ -234,6 +255,7 @@
               }
 
             } else if (i == 3) {
+              this.vshow2=false
               k = []
               kt = []
               k = {
@@ -357,7 +379,52 @@
       })
     },
     methods: {
-
+      remove(title){
+        this.isFavorite=false
+        let email = sessionStorage.getItem('email');
+        let users = JSON.parse(localStorage.getItem("instausers"));
+        this.movies=[]
+        users.forEach(user => {
+            if ((user.moboremail == email) || (user.uname == email) || (user.email == email)) {
+              user.fav.forEach(f => {
+                if(title!=f.poster){
+                  this.movies.push(f)
+                }
+              })
+              alert("movie deleted from favourites")
+              this.saveimage()
+            }
+        })
+      },
+      saveimage() {
+      let email = sessionStorage.getItem('email');
+      let users = JSON.parse(localStorage.getItem("instausers"));
+      let newusers = [];
+      users.forEach(user => {
+          if ((user.moboremail == email) || (user.uname == email) || (user.email == email)) {
+              let cuser = {
+                  moboremail: user.moboremail,
+                  fname: user.fname,
+                  uname: user.uname,
+                  pass: user.pass,
+                  phone: user.phone,
+                  email: user.email,
+                  website: user.website,
+                  bio: user.bio,
+                  gender: user.gender,
+                  profile: user.profile,
+                  posts: user.posts,
+                  fav:this.movies
+              }
+              newusers.push(cuser);
+          } else {
+              newusers.push(user);
+          }
+      })
+      console.log(newusers)
+      localStorage.setItem("instausers", JSON.stringify(newusers));
+      window.location.reload();
+    }
     }
   }
 </script>
@@ -574,4 +641,17 @@
       outline: none;
       box-shadow: none;
   }
+      .remove-btn-btn {
+    border: 1px solid transparent;
+    background-color: rgba(var(--d69,0,149,246),1);
+    color: #fff;
+    border-radius: 6px;
+    width: 31%;
+    margin-bottom: 2%;
+    font-size: 20px;
+    margin-top: 2%;
+}
+.remove-btn{
+  text-align: center;
+}
 </style>
