@@ -144,11 +144,11 @@
         <button id="show-modal" @click="showModal = true" class="new-post">Upload</button>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-        <router-link to="/edit-post">
+        <!-- <router-link to="/edit-post">
                 <button class="new-post">
                     Edit Posts
                 </button>
-        </router-link>
+        </router-link> -->
         <div class="tabs">
             <a v-on:click="activetab='1'" v-bind:class="[ activetab === '1' ? 'active' : '' ]">
                 <img :src="require('./images/grid.png')" style="width: 50px; height:50px;" />
@@ -221,7 +221,7 @@
                                                         </button>
                                                     </div>
                                                     <button @click="removeimage(`${iddot}`)" class="edit-btn-modal">Delete</button>
-                                                    <!-- <button @click="edit" class="edit-btn-modal">Edit</button> -->
+                                                    <button @click="edit(`${iddot}`)" class="edit-btn-modal">Edit</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -321,7 +321,6 @@
                     this.fname = user.fname;
                     this.uname = user.uname;
                     this.posts = user.posts;
-                    this.len=this.posts.length;
                     user.posts.forEach(post => {
                         this.iddot=post.id
                         var sam = {
@@ -332,6 +331,7 @@
                             likes:post.likes,
                             id:post.id
                         }
+                        this.len=parseInt(post.id);
                         this.catsrows.push(sam);
                     })
                     let i = 1;
@@ -446,7 +446,6 @@
                         this.posts.push(f)
                         }
                     })
-
                     alert("successfully deleted posts")
                     this.saveimage()
                     }
