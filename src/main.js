@@ -21,6 +21,9 @@ import VueClazyLoad from 'vue-clazy-load';
 
 
 Vue.use(VueClazyLoad);
+import VueCarousel from 'vue-carousel';
+ 
+Vue.use(VueCarousel);
 Vue.config.productionTip = false;
 Vue.use(VueCompositionApi);
 

@@ -38,7 +38,7 @@
             <div class="row">
                 <div class="col-sm-4 profile-icon">
                     <!-- <img :src="require('./images/profile-icon.png')" style="width: 42%"/> -->
-                    <img :src="`${profile_path}`" style="width: 42%;border-radius: 91px;" />
+                    <img :src="`${pro}`" style="width: 42%;border-radius: 91px;" />
                 </div>
                 <div class="col-sm-4">
                     <div>
@@ -125,14 +125,25 @@
                                 </button>
                             </div>
                             <div class="upload-form modal-body">
-                                <center>
-                                    <input type="text" v-model="url_image" placeholder="image url..."
-                                        class="upload-input"><br /><br />
+                                <!-- <center> -->
+                                    <!-- <input type="text" v-model="url_image" placeholder="image url..." class="upload-input"><br /><br /> -->
+                                   <table>
+                                       <center>
+                                    <tr v-bind:key="index" v-for="(url, index) in urls">
+                                        <td><input type="text" v-model="url.title" placeholder="image url..." class="upload-input" style="width: 192%;margin-left: 19%;"></td>
+                                        <br><br>
+                                    </tr>
+                                    </center>
+                                    </table>
+                                    <br>
+                                    <button class="add-image" @click="addRow">Add images</button>
+                                    <br>
+                                    <br>
                                     <textarea rows="5" placeholder="comments...." class="upload-input"
                                         v-model="comment_image"></textarea>
                                     <br><br>
                                     <button @click="addimage" class="upload-btn">Upload</button>
-                                </center>
+                                <!-- </center> -->
                             </div>
                         </div>
                     </div>
@@ -207,8 +218,6 @@
                         <h5 class="username-post">
                             <img :src="`${catl.profile}`" style="width: 3%;border-radius: 16px;"/>
                             {{catl.name}}
-                            <!-- showdot(`${catl.id}`) -->
-                            <!-- {{catl.id}} -->
                             <div v-if="showDots">
                                 <transition name="modal">
                                     <div class="modal-mask">
@@ -232,16 +241,39 @@
                         </h5>
                         <p class="post-p">
                             <span>
-                                <!-- <img :src="`${cat.path}`" class="post-img" /> -->
-                                 <clazy-load :src="`${catl.path}`">
-                                    <img :src="`${catl.path}`" class="post-img">
-                                    <div class="preloader" slot="placeholder">
-                                    <center>
-                                        <img src="data:image/png;base64,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" alt="" style="width: 41%;">
-                                    </center>
+                                <div v-if="catl.path.length==1">
+                                    <!-- <div v-bind:key="inx" v-for="(t,inx) in catl.path"> -->
+                                        <clazy-load :src="`${catl.path[0]}`">
+                                            <img :src="`${catl.path[0]}`" class="post-img">
+                                            <div class="preloader" slot="placeholder">
+                                            <center>
+                                                <img src="data:image/png;base64,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" alt="" style="width: 41%;">
+                                            </center>
+                                            </div>
+                                        </clazy-load>
+                                        <br>
+                                        <br>
+                                    <!-- </div> -->
+                                </div>
+                                <div v-if="catl.path.length>1">
+                                     <div class="slides">
+                                        <transition-group name="slide" mode="out-in" enter-class="slide-in" leave-class="slide-out" enter-active-class="animated slide-in-active" leave-active-class="animated slide-out-active">
+                                        <!-- eslint-disable vue/no-use-v-if-with-v-for,vue/no-confusing-v-for-v-if -->
+                                        <div :key="index"
+                                            v-for="index in catl.slides"
+                                        >
+                                        <div v-if="index == active">
+                                            <img :src="`${catl.path[index-1]}`" alt="" class="post-img">
+                                        </div>
+                                           
+                                        </div>
+                                        </transition-group>
                                     </div>
-                                </clazy-load>
-                                <br />
+                                    <ul class="dots">
+                                        <li v-bind:key="index" v-for="(dot, index) in catl.slides" :class="{ active: ++index === active }" @click="jump(index)"></li>
+                                    </ul>
+                                </div>
+                                <br>
                                 <div class="like-btn">
                                     <img :src="require('./images/like-image-color.png')" style="width:6%;">
                                     {{catl.likes}}&nbsp;&nbsp;likes
@@ -249,11 +281,10 @@
                                 <div class="comment">
                                     {{catl.comment}}
                                 </div>
-                                <!-- <div class="remove-btn">
-                                    <button class="remove-btn-btn" @click="removeimage(`${cat.path}`)">
-                                        Remove
-                                    </button>
-                                </div> -->
+                                <div class="comment" v-if="iddot==catl.id" >
+                                    <input type="text" v-model="editcom" class="comment-edit" id='comedit'>
+                                    <button @click="savedit(`${catl.id}`)" class="save-edit">Save</button>
+                                </div>
                             </span>
                         </p>
                     </div>
@@ -280,18 +311,26 @@
 </template>
 
 <script>
+    // import { Carousel, Slide} from 'vue-carousel';
     export default {
         name: 'Home',
         props: {
             msg: String
         },
+        // components: {
+        //     Carousel,
+        //     Slide
+        // },
         data() {
             return {
+                active: 1,
+                editcom:"",
                 iddot:"",
                 timestamp:"",
                 showModal: false,
                 showDots: false,
                 activetab: '1',
+                activeimage:'1',
                 show: true,
                 cats: [],
                 comment: [],
@@ -302,19 +341,31 @@
                 pro:"",
                 len:0,
                 uname:"",
-                fname:""
+                fname:"",
+                com:true,
+                urls:[],
+                i:1
             }
         },
         created() {
             setInterval(this.getNow, 1000);
         },
         mounted() {
+            document.createElement('tr');
+            this.urls.push({
+                id:this.i,
+                title: "",
+            });
+            this.i=this.i+1;
             this.cats = []
             this.comment = []
             this.posts = []
+            let pa=[]
             let email = sessionStorage.getItem('email');
             let users = JSON.parse(localStorage.getItem("instausers"));
             console.log(email)
+            this.slides=0
+
             users.forEach(user => {
                 if ((user.moboremail == email) || (user.uname == email) || (user.email == email)) {
                     this.pro=user.profile
@@ -322,14 +373,29 @@
                     this.uname = user.uname;
                     this.posts = user.posts;
                     user.posts.forEach(post => {
-                        this.iddot=post.id
+                        // this.active.push(1);
+                        // this.iddot=post.id
+                        pa=[]
+                        this.slides=0
+                        post.path.forEach(p=>{
+                            // var images={
+                            //     id:p.id,
+                            //     tit:p.title
+                            // }
+                            // pa.push(images);
+                            pa.push(p.title)
+                            this.slides=this.slides+1
+                            
+                        })
+                        console.log(pa)
                         var sam = {
                             profile:user.profile,
                             name: user.uname,
-                            path: post.path,
+                            path: pa,
                             comment: post.comment,
                             likes:post.likes,
-                            id:post.id
+                            id:post.id,
+                            slides:this.slides,
                         }
                         this.len=parseInt(post.id);
                         this.catsrows.push(sam);
@@ -339,14 +405,19 @@
                     var s;
                     var m;
                     user.posts.forEach(post => {
+                        pa=[]
+                         post.path.forEach(p=>{
+                            pa=p.title
+                            // console.log(p.title);
+                        })
                         if (i == 1) {
-                            s = post.path
+                            s = pa
                             k = []
                             k = {
                                 id: s
                             }
                         } else if (i == 2) {
-                            m = post.path
+                            m = pa
                             k = []
                             k = {
                                 id: s,
@@ -358,7 +429,7 @@
                             k = {
                                 id: s,
                                 name: m,
-                                phone: post.path
+                                phone: pa
                             }
 
                         }
@@ -400,16 +471,79 @@
                     this.profile_path = user.profile
                 }
             })
-
+            
         },
       
         methods: {
+            jump(index) {
+                this.active = index
+            },
+            addRow: function() {
+                document.createElement('tr');
+                this.urls.push({
+                    id:this.i.toString(),
+                    title: "",
+                });
+                this.i=this.i+1;
+            },
             getNow: function() {
                 const today = new Date();
                 const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
                 const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
                 const dateTime = date +' '+ time;
                 this.timestamp = dateTime;
+            },
+            savedit(id){
+                let email = sessionStorage.getItem('email');
+                let users = JSON.parse(localStorage.getItem("instausers"));
+                this.posts=[]
+                users.forEach(user => {
+                    if ((user.moboremail == email) || (user.uname == email) || (user.email == email)) {
+                    user.posts.forEach(f => {
+                        if(id==f.id){
+                            var sam = {
+                                id:f.id,
+                                path:f.path,
+                                comment:this.editcom,
+                                likes:f.likes,
+                                date:f.date
+                            }
+                            this.posts.push(sam)
+                        }
+                        else{
+                            this.posts.push(f)
+                        }
+                    })
+                    alert("successfully saved changes")
+                    this.saveimage()
+                    }
+                })
+            },
+            edit(id){
+                console.log(id)
+                let email = sessionStorage.getItem('email');
+                let users = JSON.parse(localStorage.getItem("instausers"));
+                users.forEach(user => {
+                    if ((user.moboremail == email) || (user.uname == email) || (user.email == email)) {
+                    user.posts.forEach(f => {
+                        if(id==f.id){
+                        this.editcom=f.comment
+                        }
+                    })
+                    }
+                })
+                this.com=false
+                this.showDots = false
+                const element = document.getElementById('comedit');
+                element.scrollIntoView({ behavior: 'smooth' });
+                // this.$refs.comedit.$el.focus();
+                // this.$refs.comedit.inputElement.focus();
+    //             if(!this.onEdit) {
+    //                 this.onEdit = true;
+    //                 this.$nextTick(function(){
+    //                     this.$refs.comedit.focus();
+    //             });
+    //   }
             },
             showdot(id){
                 //  alert("id:",id)
@@ -418,13 +552,13 @@
                 this.showDots = true
             },
             addimage() {
-                if((!this.url_image))
+                if((!this.urls))
                     alert("provide image path");
                 else{
                     this.len=this.len+1;
                     var post = {
                         id:this.len.toString(),
-                        path: this.url_image,
+                        path: this.urls,
                         comment: this.comment_image,
                         likes:"0",
                         date:this.timestamp
@@ -731,4 +865,94 @@
 .three-dots {
     margin-left: 51%;
 }
+.comment-edit {
+    border: none;
+    border-bottom: 1px solid black;
+    line-height: 2em;
+    width: 95%;
+}
+.save-edit {
+    line-height: 1.5em;
+    width: 16%;
+    margin-bottom: 2%;
+    border: 1px solid transparent;
+    background-color: rgba(var(--d69,0,149,246),1);
+    color: white;
+    border-radius: 6px;
+    font-size: 20px;
+}
+.add-image {
+    border: none;
+    background: none;
+    text-decoration: underline;
+}
+
+.next {
+  right: 0;
+  margin-left: auto;
+  margin-right: 25px;
+  text-indent: 2px;
+}
+
+.dots {
+  /* position: fixed; */
+  display: block;
+  width: 100%;
+  text-align: center;
+  bottom: 20px;
+}
+.dots li {
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  background: #221e21;
+  opacity: 0.2;
+  display: inline-block;
+  margin: 0 3px;
+  cursor: pointer;
+  transition: opacity 0.4s ease-in-out, width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.dots li.active {
+  width: 22px;
+  opacity: 1;
+}
+
+.slides {
+  font-size: 40px;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+@media (min-width: 600px) {
+  .slides {
+    font-size: 80px;
+  }
+}
+@media (min-width: 900px) {
+  .slides {
+    font-size: 140px;
+  }
+}
+.slides .animated {
+  transition: all 400ms;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+.slides .slide-in {
+  opacity: 0;
+  transform: translate(-40%, -50%);
+}
+.slides .slide-in-active {
+  transition-delay: 150ms;
+}
+.slides .slide-out {
+  opacity: 1;
+}
+.slides .slide-out-active {
+  opacity: 0;
+  transform: translate(-60%, -50%);
+}
+  
 </style>
